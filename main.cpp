@@ -1,30 +1,27 @@
 #include "arbolBinario.h"
 
-/*
-AB q 
-q = T 
-T = null
-delete q
-*/
 void agregarAlDiccionario(string);
 void mostrarPalabraPorLetra();
 void eliminarPalabra(string);
 void buscarFrecuencia(string);
 void imprimirRepetida();
 string mayusculaAMinuscula(string);
+void inicializarDic();
 
 struct estructuraDiccionario
 {
-    char letra;
+    string letra;
     ABB arbolBinarioDeBusqueda;
     int cantidad=0;
-} dic[27];
+} dic[28];
 
-static string letrasDelDiccionario[27] = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","ñ","o","p","q","r","s","t","u","v","w","x","y","z"};
+static string letrasDelDiccionario[28] = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","ñ","o","p","q","r","s","t","u","v","w","x","y","z"};
 
 int main()
 {
     string palabraIngresadaPorTeclado;
+    char aux;
+    int inicio=1;
     
     int seleccionMenu =0;
     while(true)
@@ -56,33 +53,77 @@ int main()
         switch(seleccionMenu)
         {
     	    case 1:
-                cout << endl << "Por defecto se crea un diccionario vacio..." << endl;
+                if(inicio==1)
+                {
+                    cout << endl << "inicializando..." << endl;
+                    inicializarDic();
+                    inicio=0;
+                }
+                else if(inicio==0)
+                {
+                    cout << endl << "YA INICIALIZO" << endl;
+                }
     	    break;
     	
     	    case 2:
-                cout << "\n\tingresa la palabra   :";
-                cin >> palabraIngresadaPorTeclado;
-                agregarAlDiccionario(mayusculaAMinuscula(palabraIngresadaPorTeclado));
+                if(inicio==0)
+                {
+                    cout << "\n\tingresa la palabra   :";
+                    cin >> palabraIngresadaPorTeclado;
+                    agregarAlDiccionario(mayusculaAMinuscula(palabraIngresadaPorTeclado));
+                }
+                if(inicio==1)
+                {
+                    cout << endl << "SE DEBE INICIALIZAR" << endl;
+                }
     	    break;
     	
     	    case 3:
-                cout << "\n\tingresa la palabra   :";
-                cin >> palabraIngresadaPorTeclado;
-                eliminarPalabra(mayusculaAMinuscula(palabraIngresadaPorTeclado));
+                if(inicio==0)
+                {
+                    cout << "\n\tingresa la palabra   :";
+                    cin >> palabraIngresadaPorTeclado;
+                    eliminarPalabra(mayusculaAMinuscula(palabraIngresadaPorTeclado));
+                }
+                if(inicio==1)
+                {
+                    cout << endl << "SE DEBE INICIALIZAR" << endl;
+                }
     	    break;
     	
     	    case 4:
-                mostrarPalabraPorLetra();
+                if(inicio==0)
+                {
+                    mostrarPalabraPorLetra();
+                }
+                if(inicio==1)
+                {
+                    cout << endl << "SE DEBE INICIALIZAR" << endl;
+                }
     	    break;
     	    
     	    case 5:
-                cout << "\n\tingresa la palabra   :";
-                cin >> palabraIngresadaPorTeclado;
-                buscarFrecuencia(mayusculaAMinuscula(palabraIngresadaPorTeclado));
+                if(inicio==0)
+                {
+                    cout << "\n\tingresa la palabra   :";
+                    cin >> palabraIngresadaPorTeclado;
+                    buscarFrecuencia(mayusculaAMinuscula(palabraIngresadaPorTeclado));
+                }
+                if(inicio==1)
+                {
+                    cout << endl << "SE DEBE INICIALIZAR" << endl;
+                }
     	    break;
     	    
     	    case 6:
-                imprimirRepetida();
+                if(inicio==0)
+                {
+                    imprimirRepetida();
+                }
+                if(inicio==1)
+                {
+                    cout << endl << "SE DEBE INICIALIZAR" << endl;
+                }
     	    break;
     
     	    case 7:
@@ -95,14 +136,27 @@ int main()
     return 0;
 }
 
-void agregarAlDiccionario(string palabras)
+void inicializarDic()
 {
-    //vector<string> letras(palabras.begin(), palabras.end());
     for(int i=0;i<27;i++)
     {
-        if(palabras[0]==letrasDelDiccionario[i])
+        dic[i].letra="0";
+        inicializar(dic[i].arbolBinarioDeBusqueda);
+        dic[i].cantidad=0;
+    }
+    
+}
+
+void agregarAlDiccionario(string palabras)
+{
+    char a = palabras[0];
+    string c;
+    c=a;
+    for(int i=0;i<27;i++)
+    {
+        if(c==letrasDelDiccionario[i])
         {
-            dic[i].letra=palabras[0];
+            dic[i].letra=c;
             insertar(dic[i].arbolBinarioDeBusqueda, palabras);
             dic[i].cantidad++;
         }
@@ -114,31 +168,38 @@ void mostrarPalabraPorLetra()
     for(int i=0;i<27;i++)
     {
         cout<<endl<<endl<<"letra:   "<<letrasDelDiccionario[i];
-        cout<<endl<<"en orden:  ";
-        enOrden(dic[i].arbolBinarioDeBusqueda);
+        cout<<endl<<"palabras:  ";
+        enOrden(dic[i].arbolBinarioDeBusqueda);    
         cout<<endl<<"cantidad de palabras con esa letra:    "<<dic[i].cantidad;
     }
 }
 
 void eliminarPalabra(string palabras)
 {
-    vector<char> letras(palabras.begin(), palabras.end());
+    char a=palabras[0];
+    string c;
+    c=a;
+    
     for(int i=0;i<27;i++)
     {
-        if(letras[0]==letrasDelDiccionario[i])
+       if(c==letrasDelDiccionario[i])
         {
             eliminarABB(dic[i].arbolBinarioDeBusqueda, palabras);
             dic[i].cantidad--;
         }
-    }    
+    }
+    
 }
 
 void buscarFrecuencia(string palabras)
 {
-    vector<char> letras(palabras.begin(), palabras.end());
+    char a=palabras.front();
+    string c;
+    c=a;
+    //vector<string> letras(palabras.begin(), palabras.end());
     for(int i=0;i<27;i++)
     {
-        if(letras[0]==letrasDelDiccionario[i])
+        if(c==letrasDelDiccionario[i])
         {
             cout<<buscarPorPalabra(dic[i].arbolBinarioDeBusqueda, palabras);
         }
