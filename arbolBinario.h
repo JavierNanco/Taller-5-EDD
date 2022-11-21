@@ -4,9 +4,9 @@
 #include <sstream>  //relacionada a string stream
 #include <vector>   //relacionada al manejo de vectores dinámicos
 #include <string>
-#include <locale.h>
 #include <cstdlib>
 #include <algorithm>
+#include <conio.h>
 
 using namespace std;
 
@@ -61,13 +61,13 @@ void recorrido(ABB arbol)
 
 void enOrden(ABB arbol)
 {
-     if(arbol!=NULL)
-     {
-          enOrden(arbol->izq);
-          cout << arbol->palabra << " ";
-          cout << arbol->frecuencia<<" ";
-          enOrden(arbol->der);
-     }
+    if(arbol!=NULL)
+    {
+        enOrden(arbol->izq);
+        cout << arbol->palabra <<" ";
+        cout << arbol->frecuencia<<" ";
+        enOrden(arbol->der);
+    }
 }
 
 void Mayor(ABB &S, ABB &p)
@@ -127,10 +127,10 @@ void eliminarABB(ABB &arbol, string palabraQueEntra)
     }
 }
 
-string buscarPorPalabra(ABB arbol, string palabraQueEntra)
+int buscarPorPalabra(ABB arbol, string palabraQueEntra)
 {
-    string aux="EXISTE Y ES";
-    string contador="NO EXISTE";
+    int aux=1;
+    int contador=0;
     if(arbol!=NULL)
     {
         buscarPorPalabra(arbol->izq, palabraQueEntra);
@@ -159,4 +159,13 @@ void imprimeRepetidas(ABB arbol)
         }
         imprimeRepetidas(arbol->der);
     }        
+}
+
+void inicializar(ABB arbol)
+{
+    if (arbol == NULL) return;
+    inicializar(arbol->der);
+    inicializar(arbol->izq);
+    cout << "\n Deleting node: " << arbol->palabra;
+    delete arbol;
 }
